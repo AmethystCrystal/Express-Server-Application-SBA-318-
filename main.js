@@ -2,10 +2,15 @@ const express = require('express');
 const app = express();
 const port = 2000;
 
+const bodyParser = require("body-parser");
+
 const users = require('./data/users');
 const bios = require('./data/bios');
 const hobbies = require('./data/hobbies');
 
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ extended: true }));
 
 // ============= USERS ==================== //
 
@@ -39,9 +44,10 @@ app.get("/web/hobbies", (req, res)=>{
 // CREATE - POST - create a user
 
 // SHOW - GET Request - Getting one user's hobbies
-app.get("/web/hobbies/:id", (req, res)=>{
+app.get("/web/hobbies/:id", (req, res, next)=>{
  const hobby = hobbies.find((h) => h.id == req.params.id);
   if (hobby) res.json(hobby);
+  else next();
 });
 
 //UPDATE - PUT/PATCH - update a user
@@ -59,9 +65,10 @@ app.get("/web/bios", (req, res)=>{
 // CREATE - POST - create a user
 
 // SHOW - GET Request - Getting one user's bio
-app.get("/web/bios/:id", (req, res)=>{
+app.get("/web/bios/:id", (req, res, next)=>{
  const bio = bios.find((b) => b.id == req.params.id);
   if (bio) res.json(bio);
+  else next();
 });
 
 //UPDATE - PUT/PATCH - update a user
@@ -69,10 +76,10 @@ app.get("/web/bios/:id", (req, res)=>{
 //DELETE - DELETE - delete a user
 
 
-
+// Custom Middleware
 app.use((req, res) => {
     res.status(404);
-    res.json({ error: "Resource Not Found" });
+    res.json({ error: "Data Not Located" });
   });
 
 app.listen(port, ()=>{

@@ -8,7 +8,7 @@ const users = require('./data/users');
 const bios = require('./data/bios');
 const hobbies = require('./data/hobbies');
 
-// Custome middleware that logs a message with every request
+// Custom middleware that logs a message to the console with every request
 const logger = (req, res, next) => {
   console.log("Incoming Request", req.method, req.url);
   next();

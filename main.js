@@ -8,6 +8,13 @@ const users = require('./data/users');
 const bios = require('./data/bios');
 const hobbies = require('./data/hobbies');
 
+// Custome middleware that logs a message with every request
+const logger = (req, res) => {
+  console.log("Incoming Request", req.method, req.url);
+}
+app.use(logger);
+
+
 app.set('view engine', 'ejs');
 
 
@@ -95,11 +102,13 @@ app.get("/web/bios/:id", (req, res)=>{
 //DELETE - DELETE - delete a user
 
 
-// Custom Middleware
+// Custom Middleware that gives an error when data isn't found
 app.use((req, res) => {
     res.status(404);
     res.json({ error: "Data Not Located" });
   });
+
+
 
 app.listen(port, ()=>{
     console.log(`Server is listening on port: ${port}`);

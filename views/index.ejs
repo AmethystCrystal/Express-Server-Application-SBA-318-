@@ -1,5 +1,3 @@
-<!-- views/userDetails.ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,15 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Details</title>
+    <link rel="stylesheet" href="/style.css"> 
 </head>
 <body>
-   <!-- views/index.ejs -->
+   
 
-<ul>
+<div>
     <% users.forEach(function(user) { %>
-      <%- include('show', { user: user }); %>
+      <li id="hi"><%= user.id  %></li>
+      <li><%= user.name  %></li>
+      <li><%= user.username  %></li>
+      <li><%= user.email  %></li>
     <% }); %>
-  </ul>
+    </div>
   
 </body>
 </html>

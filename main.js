@@ -9,9 +9,11 @@ const bios = require('./data/bios');
 const hobbies = require('./data/hobbies');
 
 // Custome middleware that logs a message with every request
-const logger = (req, res) => {
+const logger = (req, res, next) => {
   console.log("Incoming Request", req.method, req.url);
-}
+  next();
+};
+
 app.use(logger);
 
 
@@ -24,9 +26,11 @@ app.use(express.static("./styles"));
 
 // ============= USERS ==================== //
 
+
+
 // INDEX - GET Request - Getting all users
 app.get("/web/users", (req, res)=>{
-    res.json(users);
+    res.render('index', {users}); //Rendered a view for Users
 });
 
 // CREATE - POST - create a user
@@ -35,7 +39,7 @@ app.get("/web/users", (req, res)=>{
 app.get("/web/users/:id", (req, res)=>{
  const user = users.find((u) => u.id == req.params.id);
   if (user)  {
-    res.render('index', {users});
+    res.json(user);
   } else {
     res.status(404);
     res.json({ error: "User not found" });

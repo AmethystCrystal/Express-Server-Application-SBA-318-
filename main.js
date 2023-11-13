@@ -8,6 +8,8 @@ const users = require('./data/users');
 const bios = require('./data/bios');
 const hobbies = require('./data/hobbies');
 
+app.set('view engine', 'ejs');
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ extended: true }));
@@ -24,7 +26,12 @@ app.get("/web/users", (req, res)=>{
 // SHOW - GET Request - Getting one user
 app.get("/web/users/:id", (req, res)=>{
  const user = users.find((u) => u.id == req.params.id);
-  if (user) res.json(user);
+  if (user)  {
+    res.render('index', {users});
+  } else {
+    res.status(404);
+    res.json({ error: "User not found" });
+  }
 });
 
 //UPDATE - PUT/PATCH - update a user
@@ -44,10 +51,16 @@ app.get("/web/hobbies", (req, res)=>{
 // CREATE - POST - create a user
 
 // SHOW - GET Request - Getting one user's hobbies
-app.get("/web/hobbies/:id", (req, res, next)=>{
+app.get("/web/hobbies/:id", (req, res)=>{
  const hobby = hobbies.find((h) => h.id == req.params.id);
-  if (hobby) res.json(hobby);
-  else next();
+  if (hobby)  {
+    res.json(hobby);
+  } else {
+    res.status(404);
+    res.json({ error: "Hobbies not found" });
+  }
+  
+  
 });
 
 //UPDATE - PUT/PATCH - update a user
@@ -65,10 +78,15 @@ app.get("/web/bios", (req, res)=>{
 // CREATE - POST - create a user
 
 // SHOW - GET Request - Getting one user's bio
-app.get("/web/bios/:id", (req, res, next)=>{
+app.get("/web/bios/:id", (req, res)=>{
  const bio = bios.find((b) => b.id == req.params.id);
-  if (bio) res.json(bio);
-  else next();
+  if (bio)  {
+    res.json(bio);
+  } else {
+    res.status(404);
+    res.json({ error: "Bio not found" });
+  }
+  
 });
 
 //UPDATE - PUT/PATCH - update a user
